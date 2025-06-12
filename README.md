@@ -1,6 +1,6 @@
 # Gamified Emergent Agent Relations (GEAR)
 
-![alt text](logo.png)
+![alt text](gear_logo.png)
 
 > *recipeWorld* is an agent-based model that simulates the emergence of networks out of a decentralized autonomous interaction. [^Fontana2015recipeWorld]
 
