@@ -1,0 +1,10 @@
+[project]
+name = "GEAR"
+version = "0.1.0"
+description = "Multiagent System Inspired by the recipeWorld Model"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=2.3.0",
+    "spade>=4.1.0",
+]

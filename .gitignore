@@ -1,3 +1,10 @@
+# Other files
+logs.log
+uv.lock
+test.py
+.python-version
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
