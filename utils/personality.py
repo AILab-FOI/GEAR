@@ -55,7 +55,7 @@ class PersonalityProfile:
             facet (str): The name of the facet.
             score (float): The score to set for the facet.
         """
-        assert -1 <= score <= 1, "Score must be between 0 and 5."
+        assert 0 <= score <= 1, "Score must be between -1 and 1."
         self.scores[self.facet_to_index.get(facet)] = score
 
     def get_factor_scores(self, factor: str) -> np.ndarray:
@@ -104,7 +104,7 @@ class PersonalityProfile:
             scores (list): A list of scores for all facets.
         """
         assert len(scores) == 30, "Scores must be a list or array of length 30."
-        self.scores = scores
+        self.scores = np.array(scores)
 
     def generate_random_personality_vector(self):
         self.scores = np.random.rand(30)
@@ -141,7 +141,7 @@ class Personality:
         self.personality_descriptor = personality or {
             "age": age,
             "gender": gender,
-            "personality_profile": PersonalityProfile(personality_scores)
+            "personality profile": PersonalityProfile(personality_scores)
         }
 
     def get_personality_descriptor(self) -> dict[str, int | float | PersonalityProfile]:
@@ -162,8 +162,17 @@ class Personality:
         """
         assert "age" in personality_descriptor, "Age must be provided."
         assert "gender" in personality_descriptor, "Gender must be provided."
-        assert "personality_profile" in personality_descriptor, "Personality profile must be provided."
+        assert "personality profile" in personality_descriptor, "Personality profile must be provided."
         self.personality_descriptor = personality_descriptor
+
+    def update_personality_descriptor(self, personality_descriptor: dict[str, int | float | PersonalityProfile]):
+        """
+        Update the personality descriptor.
+
+        Args:
+            personality_descriptor (dict): A dictionary containing age, gender, or personality profile.
+        """
+        self.personality_descriptor.update(personality_descriptor)
 
     def get_personality_vector(self) -> np.ndarray:
         """
@@ -172,7 +181,7 @@ class Personality:
         Returns:
             np.ndarray: An array of scores for all facets.
         """
-        return self.personality_descriptor.get("personality_profile").get_personality_vector()
+        return self.personality_descriptor.get("personality profile").get_personality_vector()
 
     def set_personality_vector(self, scores: list):
         """
@@ -181,10 +190,10 @@ class Personality:
         Args:
             scores (list): A list of scores for all facets.
         """
-        self.personality_descriptor.get("personality_profile").set_personality_vector(scores)
+        self.personality_descriptor.get("personality profile").set_personality_vector(scores)
 
     def generate_random_personality_vector(self):
-        self.personality_descriptor.get("personality_profile").generate_random_personality_vector()
+        self.personality_descriptor.get("personality profile").generate_random_personality_vector()
 
     def __str__(self):
         return str(self.personality_descriptor)

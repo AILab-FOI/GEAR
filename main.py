@@ -5,6 +5,7 @@ from agents.service_provider_agent import ServiceProviderAgent
 from agents.service_consumer_agent import ServiceConsumerAgent
 
 from utils.service import Service
+import utils.personality_profiles as personality_profiles
 
 
 async def main(simulation_timeout=None):
@@ -14,15 +15,35 @@ async def main(simulation_timeout=None):
 
     providers = []
 
-    providers.append(ServiceProviderAgent("provider1@localhost", "password", provider1_services))
-    providers.append(ServiceProviderAgent("provider2@localhost", "password", provider2_services))
+    providers.append(
+        ServiceProviderAgent(
+            "provider1@localhost",
+            "password",
+            provider1_services,
+            personality={
+                "personality profile": personality_profiles.anti_gamification
+            },
+        )
+    )
+    providers.append(
+        ServiceProviderAgent(
+            "provider2@localhost",
+            "password",
+            provider2_services,
+            personality={"personality profile": personality_profiles.creative_innovator},
+        )
+    )
 
     for provider_agent in providers:
         await provider_agent.start(auto_register=True)
 
     await asyncio.sleep(2)
 
-    consumer = ServiceConsumerAgent("consumer1@localhost", "password", providers={provider.jid: {"services": None} for provider in providers})
+    consumer = ServiceConsumerAgent(
+        "consumer1@localhost",
+        "password",
+        providers={provider.jid: {"services": None} for provider in providers},
+    )
     await consumer.start(auto_register=True)
 
     # Keep agents running for up to simulation_timeout seconds
@@ -49,9 +70,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.nologs:
         import logging
+
         logging.disable(logging.CRITICAL)
     if args.debug:
         import logging
+
         logging.basicConfig(level=logging.DEBUG)
 
     asyncio.run(main(simulation_timeout=args.timeout))

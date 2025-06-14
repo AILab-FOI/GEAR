@@ -1,6 +1,6 @@
 # Gamified Emergent Agent Relations (GEAR)
 
-![alt text](gear_logo.png)
+![alt text](figs/gear_logo.png)
 
 > *recipeWorld* is an agent-based model that simulates the emergence of networks out of a decentralized autonomous interaction. [^Fontana2015recipeWorld]
 
@@ -12,6 +12,36 @@ The basic elements of the recipeWorld model can be abstracted to the following f
 - **Providers** offer *services* that consumers can request. Providers have a *budget* that they can spend on services. Providers can *accept* or *reject* requests from consumers. Providers can *inform* consumers when a service is complete.
 
 One of the main goals of the original recipeWorld is to study the emergence of *networks* between consumers and providers. The network is formed by the *requests* and *inform* messages that are exchanged between consumers and providers. The network is analysed using *network analysis* techniques to study the emergence of *communities* and *hubs*. This feature is not implemented in this version of the GEAR, although agents do communicate with each other, and a log of all messages and interaction is kept.
+
+## Main Features of the GEAR
+
+GEAR agents extend the basic SPADE agents with a *personality* and an *inventory*. The personality is represented by a *personality profile* that contains scores for each of the Big Five personality traits and their facets. The inventory contains *items* that can be exchanged between agents. Items can have a *quantity* and *features*.
+
+Another addition to the system is the inclusion of gamification techniques that are applied to the service proposal agents. The techniques are valued based on the personality of the agent, the reward that is offered for the service, and the personality the gamification technique is intended for.
+
+### Personality Profiles
+
+The personality profiles are based on the Five Factor Model[^mccrae2006PersonalityAdulthoodFiveFactor] of personality traits and their facets. This personality model recognises five main personality traits:
+
+1. **Openness** (inventive/curious vs. consistent/cautious)
+2. **Conscientiousness** (efficient/organized vs. easy-going/careless)
+3. **Extraversion** (outgoing/energetic vs. solitary/reserved)
+4. **Agreeableness** (friendly/compassionate vs. critical/rational)
+5. **Neuroticism** (sensitive/nervous vs. resilient/confident)
+
+Each of these traits is further divided into six facets that influence each trait:
+
+- Openness: Fantasy, Aesthetics, Feelings, Actions, Ideas, Values
+- Conscientiousness: Competence, Order, Dutifulness, Achievement striving, Self-Discipline, Deliberation
+- Extraversion: Warmth, Gregariousness, Assertiveness, Activity, Excitement seeking, Positive emotions
+- Agreeableness: Trust, Straightforwardness, Altruism, Compliance, Modesty, Tender-mindedness
+- Neuroticism: Anxiety, Angry hostility, Depression, Self-Consciousness, Impulsiveness, Vulnerability
+
+The traits and facets are defined in the `utils.personality` module. The personality profiles are represented as a list of scores for each of the facets. The scores are in the range [0, 1], where 0 represents the lowest score and 1 represents the highest score. Some predefined personality profiles are stored in the `utils.personality_profiles` module.
+
+### Gamification Techniques
+
+The gamification techniques are defined in the `utils.gamification` module. These techniques are applied to the service proposal agents. Each gamification technique is valued based on the personality of the agent, the reward that is offered for the service, and the personality the gamification technique is intended for. These factors determine how strong an influence the gamification technique has on the subject agent.
 
 ## Install and Run
 
@@ -327,4 +357,11 @@ stateDiagram-v2
     perform --> idle: Service complete
 ```
 
+# Acknowledgements
+
+This work is a part of the [MAGO](https://github.com/AILab-FOI/MAGO) project.
+
+![alt text](figs/acknowledgement.png)
+
 [^Fontana2015recipeWorld]: Fontana, M., & Terna, P. (2015). From Agent-based models to network analysis (and return): The policy-making perspective (201507; Working Paper Series, str. 1–19). University of Turin Department of Economics and Statistics „Cognetti de Martiis“. https://ideas.repec.org/p/uto/dipeco/201507.html
+[^mccrae2006PersonalityAdulthoodFiveFactor]: McCrae, R. R., & Costa, P. T. (2006). Personality in Adulthood: A Five-Factor Theory Perspective (2. izd.). Guilford Press.

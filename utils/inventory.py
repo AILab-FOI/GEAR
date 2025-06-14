@@ -214,7 +214,7 @@ class Inventory():
         """
         return self.item_stack
 
-    def get_items_by_name(self, name: str):
+    def get_items_by_name(self, name: str) -> list[Item]:
         """
         Get all items from the inventory by name.
 
@@ -224,7 +224,7 @@ class Inventory():
         Returns:
             Item: The item.
         """
-        return list(filter(lambda item: item.get_name() == name, self.item_stack.keys()))
+        return list(filter(lambda item: name.lower() in item.get_name().lower(), self.item_stack.keys()))
 
     def get_item_by_name(self, name: str):
         """

@@ -8,10 +8,10 @@ class ServiceConsumerAgent(AgentWithInventory):
     def __init__(self, jid, password, recipe=None, budget=50, providers=None, **kwargs):
         super().__init__(jid, password, **kwargs)
         self.inventory.add_item_in_quantity(Item("money"), budget)
-        self.inventory.add_item_in_quantity(Item("completed recipe"), 0)
-        self.inventory.add_item(Item("list of providers", {"values": providers or {}}))
         self.inventory.add_item(Item("recipe", {"object": recipe or Recipe.random()}))
         self.inventory.add_item(Item("current recipe element", {"object": None}))
+        self.inventory.add_item_in_quantity(Item("completed recipe"), 0)
+        self.inventory.add_item(Item("list of providers", {"values": providers or {}}))
         if not any(self.personality.get_personality_vector()):
             self.personality.generate_random_personality_vector()
 

@@ -13,10 +13,11 @@ class ServiceProviderAgent(AgentWithInventory):
         self.inventory.add_item_in_quantity(Item("money"), budget)
         if services is None:
             services = [Service.random() for _ in range(2)]
-        self.inventory.add_item(Item("list of services", {"services": services}))
+        self.inventory.add_item(Item("list of services", {"values": services}))
         self.inventory.add_item(Item("inbox", {"messages": deque()}))
         for _ in range(capacity):
             self.inventory.add_item(Item("service providing medium", {"available": True}))
+        self.inventory.add_item(Item("list of provided services", {"values": {}}))
 
         if not any(self.personality.get_personality_vector()):
             self.personality.generate_random_personality_vector()
@@ -31,7 +32,7 @@ class ServiceProviderAgent(AgentWithInventory):
 
     @property
     def services(self):
-        return self.inventory.get_item_by_name("list of services").get_feature_value("services")
+        return self.inventory.get_item_by_name("list of services").get_feature_value("values")
 
     @property
     def inbox(self):
@@ -40,6 +41,14 @@ class ServiceProviderAgent(AgentWithInventory):
     @property
     def capacity(self):
         return self.inventory.get_items_by_name("service providing medium")
+
+    @property
+    def provided_services(self):
+        return self.inventory.get_item_by_name("list of provided services").get_feature_value("values")
+
+    @provided_services.setter
+    def provided_services(self, value):
+        self.inventory.get_item_by_name("list of provided services").set_feature("values", value)
 
     async def setup(self):
         print(f"[Provider {self.jid}] Starting with services: {self.services} and budget: {self.budget}")
